@@ -2,11 +2,11 @@
 
 namespace App\Domain\Repositories;
 
-use App\Domain\Entities\Accounte;
+use App\Domain\Entities\Account;
 
-interface AccounteRepository
+interface AccountRepository
 {
-    public function findById(string $id): Accounte;
-    public function save(Accounte $accounte): void;
+    public function findById(string $id): Account;
+    public function save(Account $account): void;
     public function clear(): void;
 }
