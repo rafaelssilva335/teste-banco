@@ -16,3 +16,12 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+// Reset endpoint
+$router->post('/reset', 'BankController@reset');
+
+// Balance endpoint
+$router->get('/balance', 'BankController@getBalance');
+
+// Event endpoint
+$router->post('/event', 'BankController@processEvent');
