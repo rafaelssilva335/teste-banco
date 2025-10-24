@@ -2,20 +2,21 @@
 
 namespace App\Infra\Persistence;
 
-use App\Domain\Repositories\AccounteRepository;
+use App\Domain\Repositories\AccountRepository;
+use App\Domain\Entities\Account;
 
-class MemoryAccountRepository implements AccounteRepository
+class MemoryAccountRepository implements AccountRepository
 {
     private $accounts = [];
 
-    public function findById(string $id): Accounte
+    public function findById(string $id): ?Account
     {
-        return $this->accounts[$id];
+        return $this->accounts[$id] ?? null;
     }
 
-    public function save(Accounte $accounte): void
+    public function save(Account $account): void
     {
-        $this->accounts[$accounte->getId()] = $accounte;
+        $this->accounts[$account->getId()] = $account;
     }
 
     public function clear(): void
