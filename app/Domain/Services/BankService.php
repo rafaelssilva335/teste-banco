@@ -59,11 +59,8 @@ class BankService
             throw new \DomainException('Origin account not found');
         }
 
-        $destinationAccount = $this->accountRepository->findById($destinationAccountId);
+        $destinationAccount = $this->accountRepository->findById($destinationAccountId) ?? new Account($destinationAccountId);
         
-        if (!$destinationAccount) {
-            throw new \DomainException('Destination account not found');
-        }
         $originAccount->withdraw($amount);
         $destinationAccount->deposit($amount);
         $this->accountRepository->save($originAccount);
