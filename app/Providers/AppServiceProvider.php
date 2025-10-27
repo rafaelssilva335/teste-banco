@@ -14,11 +14,11 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(\App\Domain\Repositories\AccountRepository::class, function ($app) {
-            return new \App\Infra\Persistence\MemoryAccountRepository();
+            return new \App\Infra\Persistence\SqliteAccountRepository();
         });
         
         $this->app->singleton(\App\Domain\Repositories\TransactionRepository::class, function ($app) {
-            return new \App\Infra\Persistence\MemoryTransactionRepository();
+            return new \App\Infra\Persistence\SqliteTransactionRepository();
         });
         
         $this->app->singleton(\App\Domain\Services\BankService::class, function ($app) {
