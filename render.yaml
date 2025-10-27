@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: lumen-api
+    name: ebanx-api
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
@@ -13,4 +13,4 @@ services:
       - key: APP_KEY
         generateValue: true
       - key: PORT
-        value: 8080
+        value: 8000
