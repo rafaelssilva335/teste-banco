@@ -4,20 +4,18 @@ WORKDIR /app
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    zip \
+    curl \
+    git \
     unzip \
-    git && \
+    libzip-dev && \
+    docker-php-ext-install zip && \
     rm -rf /var/lib/apt/lists/*
-
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-COPY composer.json composer.lock ./
-
-RUN composer install --no-dev --no-scripts --no-autoloader
 
 COPY . .
 
-RUN composer dump-autoload --no-dev --optimize
+RUN cp -n .env.example .env 2>/dev/null || echo ".env already exists"
+
+RUN chmod -R 777 storage
 
 EXPOSE 8000
 
