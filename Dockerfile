@@ -16,7 +16,11 @@ FROM php:8.1-cli
 
 WORKDIR /app
 
-RUN docker-php-ext-install pdo_sqlite
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    libsqlite3-dev && \
+    rm -rf /var/lib/apt/lists/* && \
+    docker-php-ext-install pdo pdo_sqlite
 
 COPY . .
 
