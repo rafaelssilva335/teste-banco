@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: teste-banco-app
+    ports:
+      - "8002:8000"
+    volumes:
+      - .:/var/www/html
+      - ./storage:/var/www/html/storage
+    environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
+      - APP_TIMEZONE=UTC
+    working_dir: /var/www/html
+    command: php -S 0.0.0.0:8000 -t public
+    networks:
+      - app-network
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge
+

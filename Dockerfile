@@ -1,39 +1,29 @@
-FROM composer:2.5 AS composer
+FROM php:8.3-cli
 
-WORKDIR /app
+RUN apt-get update && apt-get install -y \
+    git \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    unzip \
+    sqlite3 \
+    libsqlite3-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY composer.json composer.lock ./
+RUN docker-php-ext-install pdo pdo_sqlite
 
-RUN composer install \
-    --ignore-platform-reqs \
-    --no-interaction \
-    --no-plugins \
-    --no-scripts \
-    --prefer-dist \
-    --no-dev
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-FROM php:8.1-cli
-
-WORKDIR /app
-
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    libsqlite3-dev && \
-    rm -rf /var/lib/apt/lists/* && \
-    docker-php-ext-install pdo pdo_sqlite
+WORKDIR /var/www/html
 
 COPY . .
 
-COPY --from=composer /app/vendor/ /app/vendor/
+RUN composer install --no-dev --optimize-autoloader
 
-RUN cp -n .env.example .env 2>/dev/null || echo ".env already exists" && \
-    mkdir -p storage/logs && \
-    mkdir -p storage/framework/views && \
-    mkdir -p storage/framework/cache && \
-    mkdir -p storage/app && \
-    touch storage/app/database.sqlite && \
-    chmod -R 777 storage && \
-    chmod 666 storage/app/database.sqlite
+RUN mkdir -p storage/app storage/framework/cache storage/framework/views storage/logs \
+    && chmod -R 775 storage
 
 EXPOSE 8000
 
