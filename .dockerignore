@@ -1,0 +1,15 @@
+vendor/
+node_modules/
+.git/
+.gitignore
+.env
+.env.example
+storage/logs/*
+storage/framework/cache/*
+storage/framework/views/*
+storage/app/database.sqlite
+*.md
+tests/
+.phpunit.result.cache
+coverage/
+
